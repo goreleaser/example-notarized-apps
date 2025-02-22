@@ -27,10 +27,12 @@ universal_binaries:
 
 app_bundles:
   - icon: icon.icns
-    bundle: com.goreleaser.example
+    name: Example
+    bundle: com.goreleaser.Example
 
 dmg:
   - name: Example
+    use: appbundle
     replace: true
 
 notarize:
