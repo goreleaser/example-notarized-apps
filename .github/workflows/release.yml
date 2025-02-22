@@ -20,7 +20,6 @@ jobs:
       MACOS_NOTARY_KEY: ${{ secrets.MACOS_NOTARY_KEY }} # base64 .p8 key
       MACOS_NOTARY_KEY_ID: ${{ secrets.MACOS_NOTARY_KEY_ID }} # the .p8 key ID
       MACOS_NOTARY_ISSUER_ID: ${{ secrets.MACOS_NOTARY_ISSUER_ID }} # the issuer UUID
-      GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
     steps:
       - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: echo "flags=--snapshot" >> $GITHUB_ENV
@@ -65,3 +64,6 @@ jobs:
           distribution: goreleaser-pro
           version: "nightly"
           args: release --clean ${{ env.flags }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
