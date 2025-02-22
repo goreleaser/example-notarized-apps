@@ -1,0 +1,58 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+pro: true
+
+project_name: example
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+
+universal_binaries:
+  - name_template: example
+    replace: true
+
+app_bundles:
+  - icon: icon.icns
+    bundle: com.goreleaser.example
+
+dmg:
+  - name: Example
+    replace: true
+
+notarize:
+  macos_native:
+    - enabled: '{{ isEnvSet "MACOS_SIGN_P12" }}'
+      sign:
+        identity: "Developer ID Application: Carlos Becker"
+        keychain: "{{ .Env.KEYCHAIN_PATH }}"
+      notarize:
+        wait: true
+        profile_name: "{{ .Env.MACOS_NOTARY_KEYCHAIN_PROFILE }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
