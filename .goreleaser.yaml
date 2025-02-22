@@ -41,6 +41,7 @@ notarize:
       sign:
         identity: "Developer ID Application: Carlos Becker"
         keychain: "{{ .Env.KEYCHAIN_PATH }}"
+        options: [runtime]
       notarize:
         wait: true
         profile_name: "{{ .Env.MACOS_NOTARY_KEYCHAIN_PROFILE }}"
