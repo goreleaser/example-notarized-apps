@@ -24,12 +24,6 @@ jobs:
     steps:
       - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         run: echo "flags=--snapshot" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-go@v5
-        with:
-          go-version: stable
       - name: 'setup-keychain'
         run: |
           # create variables
@@ -60,6 +54,12 @@ jobs:
 
           # export the keychain path
           echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >>$GITHUB_ENV
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
       - uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser-pro
